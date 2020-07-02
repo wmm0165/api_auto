@@ -1,0 +1,4 @@
+换目录运行脚本时，注意修改/resources/logback-test.xml的日志路径
+
+生成测试结果：在Terminal下执行命令 mvn test
+根据测试结果生成测试报告：allure generate allure-results -o allure-report --clean

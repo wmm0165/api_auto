@@ -8,7 +8,7 @@ public class sfContant {
     public static final String data_url = ipAddress + "/auditcenter/api/v1/auditcenter";//如果要使用统一接口，将该地址改掉即可
 
 
-    public static final String username = "wangmm";
+    public static final String username = "auto";
     public static final String password = "123456";
 
 

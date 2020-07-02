@@ -5,13 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
-public class TestHello {
-    private Logger logger = LoggerFactory.getLogger(TestHello.class);
+public class ReadPro {
+    private Logger logger = LoggerFactory.getLogger(ReadPro.class);
 
     @Test
     public void hello() throws Exception {
@@ -19,7 +17,7 @@ public class TestHello {
         assert a == 1;
         logger.trace("trace");
         logger.debug("debug");
-        logger.info("{}", TestHello.class);
+        logger.info("{}", ReadPro.class);
         logger.warn("warn");
         logger.error("error");
 
@@ -28,7 +26,7 @@ public class TestHello {
         Properties pro = new Properties();
         //加载配置文件
         // 获取class目录下的配置文件
-        ClassLoader classLoader = TestHello.class.getClassLoader();
+        ClassLoader classLoader = ReadPro.class.getClassLoader();
         InputStream is = classLoader.getResourceAsStream("pro.properties");
         pro.load(is);
 //        System.out.println(is);

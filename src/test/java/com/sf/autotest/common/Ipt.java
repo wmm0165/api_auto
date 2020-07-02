@@ -2,15 +2,8 @@ package com.sf.autotest.common;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jayway.jsonpath.JsonPath;
-import jdk.nashorn.internal.ir.ReturnNode;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.SystemPropertyUtils;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
@@ -50,18 +43,46 @@ public class Ipt {
         return engineId;
     }
 
-//    public JSONObject iptAudit(String gp,String engineId,String auditType){
-//        HashMap<Object, Object> hashMap = new HashMap<>();
-////        hashMap.put("patientId", pid);
-//        return httpRequest.doPostJson(sfContant.auditcenter_url + "/api/v1/ipt/selNotAuditIptList", hashMap);
-//
-//    }
+    public JSONObject auditBatchAgree(Integer... engineIds) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ids", engineIds);
+        jsonObject.put("auditType", 3);
+        jsonObject.put("auditWay", 2);
+        return httpRequest.doPostJson(sfContant.auditcenter_url + "/api/v1/auditBatchAgree", jsonObject);
+    }
+
+    public JSONObject iptAudit(String gp, String engineId, int auditType) {
+        JSONObject jobj = new JSONObject();
+        JSONArray array = new JSONArray();
+        JSONObject groupOrderList = new JSONObject();
+        groupOrderList.put("auditBoList", new JSONArray());
+        groupOrderList.put("groupNo", gp);
+        groupOrderList.put("engineId", engineId);
+        groupOrderList.put("orderType", 1);
+        if (auditType == 0) {
+            groupOrderList.put("auditInfo", "必须修改");
+            groupOrderList.put("auditStatus", 0);
+        } else if (auditType == 1) {
+            groupOrderList.put("auditInfo", "打回可双签");
+            groupOrderList.put("auditStatus", 0);
+        } else if (auditType == 2) {
+            groupOrderList.put("auditStatus", 1);
+        }
+        array.add(groupOrderList);
+        jobj.put("groupOrderList", array);
+        jobj.put("auditType", 1);
+        jobj.put("auditWay", 2);
+        System.out.println(jobj);
+        return httpRequest.doPostJson(sfContant.auditcenter_url + "/api/v1/ipt/auditSingle", jobj);
+
+    }
 
     public static void main(String[] args) {
         SendData sendData = new SendData();
         String s = sendData.sendXml("ipt.xml");
         Ipt ipt = new Ipt();
-        ipt.getEngineid(sendData.changeData.get("{{zyhzh}}"), 1);
+        Object engineid = ipt.getEngineid(sendData.changeData.get("{{zyhzh}}"), 1);
+        ipt.iptAudit(sendData.changeData.get("{{gp}}"), String.valueOf(engineid), 0);
 //        JSONObject ss = ipt.postselNotAuditIptList(sendData.changeData.get("{{zyhzh}}"));
 //        System.out.println(ss);
 //        .replaceAll("null", "\"\"")
