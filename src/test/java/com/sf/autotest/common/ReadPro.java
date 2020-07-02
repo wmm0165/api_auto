@@ -1,4 +1,4 @@
-package com.sf.testcases;
+package com.sf.autotest.common;
 
 
 import org.slf4j.Logger;
