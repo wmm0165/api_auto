@@ -40,6 +40,7 @@ public class HttpRequest {
         httpPost.setEntity(requestEntity);
         CloseableHttpResponse respose = httpClient.execute(httpPost);
         HttpEntity entity = respose.getEntity();
+
         return EntityUtils.toString(entity);
     }
 
@@ -53,12 +54,13 @@ public class HttpRequest {
         httpPost.setHeader("Accept", "application/json");
         String jsonString = jsonObject.toString();
         try {
-            StringEntity entity = new StringEntity(jsonString,"UTF-8");
+            StringEntity entity = new StringEntity(jsonString, "UTF-8");
             httpPost.setEntity(entity);
             CloseableHttpResponse respose = client.execute(httpPost);
             HttpEntity httpEntity = respose.getEntity();
-            return JSONObject.parseObject(EntityUtils.toString(httpEntity));
-
+            String str = EntityUtils.toString(httpEntity);
+            log.info("接口{}的响应结果：{}", url, str);
+            return JSONObject.parseObject(str);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -84,35 +86,46 @@ public class HttpRequest {
     }
 
 
-    public void doGet(String api) {
+    public JSONObject doGet(String api) {
         HttpGet httpGet = new HttpGet(sfContant.auditcenter_url + api);
         CloseableHttpResponse respose = null;
         try {
             respose = client.execute(httpGet);
-            HttpEntity entity = respose.getEntity();
-            String enertyString = EntityUtils.toString(entity);
-            log.info("接口{}的响应结果：{}", api, enertyString);
+            HttpEntity httpEntity = respose.getEntity();
+            String str = EntityUtils.toString(httpEntity);
+            log.info("接口{}的响应结果：{}", sfContant.auditcenter_url + api, str);
+            return JSONObject.parseObject(str);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
 
     }
 
-    public void doGetwithParam(String url, List<BasicNameValuePair> list) throws IOException {
+    public JSONObject doGetwithParam(String url, List<BasicNameValuePair> list) {
 //        List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
 //        list.add(new BasicNameValuePair("username", "cgx"));
 //        list.add(new BasicNameValuePair("password", "123456"));
-        String params = EntityUtils.toString(new UrlEncodedFormEntity(list, Consts.UTF_8));
-        HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse respose = null;
+        String str = null;
         try {
+            String params = EntityUtils.toString(new UrlEncodedFormEntity(list, Consts.UTF_8));
+            HttpGet httpGet = new HttpGet(url + "?" + params);
             respose = client.execute(httpGet);
-            HttpEntity entity = respose.getEntity();
-            String enertyString = EntityUtils.toString(entity);
-            log.info("接口{}的响应结果：{}", url, enertyString);
+            if (respose.getStatusLine().getStatusCode() == 200) {
+                HttpEntity httpEntity = respose.getEntity();
+                if (httpEntity != null) {
+                    str = EntityUtils.toString(httpEntity);
+                    log.info("接口{}的响应结果：{}", url, str);
+                }
+            }
+            return JSONObject.parseObject(str);
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
+
 
     }
 

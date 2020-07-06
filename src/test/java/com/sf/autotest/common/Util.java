@@ -1,50 +1,61 @@
 package com.sf.autotest.common;
 
+import com.alibaba.druid.support.spring.stat.SpringStatUtils;
+
+import java.net.SocketTimeoutException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 public class Util {
-    public static Calendar cal = Calendar.getInstance();
-//    public TimeUtil() {
-//        Calendar cal = Calendar.getInstance();
-//    }
 
-    public static void main(String[] args) {
-        Calendar cal = Calendar.getInstance();
-        System.out.println(cal.getTimeInMillis()); //获取13位时间戳
-        Date t = cal.getTime();
-        System.out.println(t);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(sdf.format(t));
-        cal.add(Calendar.HOUR, -1);
-        System.out.println(cal.getTime());
-        System.out.println(getDate(0, 0,-7));
-        System.out.println(getRandom(1000));
+
+    public static String getDate(int day, int hour, int minute) {
+        //将Date类型的时间格式化为字符串
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(date(day, hour, minute));
     }
 
-    public static String getDate(int day, int hour,int minute) {
+
+    public static String getTimestamp(int day, int hour, int minute) {
+        //将Date类型的时间转为对应的时间戳
+        String stamp = String.valueOf(date(day, hour, minute).getTime());
+        return stamp;
+    }
+
+    public static Date date(int day, int hour, int minute) {
+        //获取Date类型的时间。（1，0，0）指获取明天的时间
+        Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, day);
         cal.add(Calendar.HOUR, hour);
         cal.add(Calendar.MINUTE, minute);
-        Date time = cal.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(time);
-
+        return cal.getTime();//Mon Jul 06 11:13:03 CST 2020
     }
 
-    public static String getRandom(int num){
+    public static void main(String[] args) {
+        Util.getDate(0, 3, 0);
+//        Calendar cal = Calendar.getInstance();
+//        System.out.println(cal.getTimeInMillis()); //获取13位时间戳
+//        Date t = cal.getTime();
+//        System.out.println(t);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        System.out.println(sdf.format(t));
+//        cal.add(Calendar.HOUR, -1);
+//        System.out.println(cal.getTime());
+//        System.out.println(getDate(0, 0, -7));
+//        System.out.println(getRandom(1000));
+//        Util.getTimestamp(0, 0, 0);
+    }
+
+    public static String getRandom(int num) {
         //生成0-num的随机数
         Random random = new Random();
         return String.valueOf(random.nextInt(num));
 
     }
 
-    public static String getTimestamp(){
-        //获取当前时间的时间戳
-        return String.valueOf(cal.getTimeInMillis());
-    }
 
     public static String getName() {
         Random random = new Random();
@@ -59,17 +70,16 @@ public class Util {
         int index = random.nextInt(Surname.length - 1);
         String name = Surname[index]; //获得一个随机的姓氏
         int i = random.nextInt(3);//可以根据这个数设置产生的男女比例
-        if(i==2){
-            int j = random.nextInt(girl.length()-2);
+        if (i == 2) {
+            int j = random.nextInt(girl.length() - 2);
             if (j % 2 == 0) {
                 name = name + girl.substring(j, j + 2);
             } else {
                 name = name + girl.substring(j, j + 1);
             }
 
-        }
-        else{
-            int j = random.nextInt(girl.length()-2);
+        } else {
+            int j = random.nextInt(girl.length() - 2);
             if (j % 2 == 0) {
                 name = name + boy.substring(j, j + 2);
             } else {
@@ -80,4 +90,6 @@ public class Util {
 
         return name;
     }
+
+
 }

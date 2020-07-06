@@ -41,7 +41,11 @@
                             <value>${allure.results.directory}</value>
                         </property>
                     </systemProperties>
+<!--                    <suiteXmlFiles>-->
+<!--                        <suiteXmlFile>testng.xml</suiteXmlFile>-->
+<!--                    </suiteXmlFiles>-->
                 </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
