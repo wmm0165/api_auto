@@ -18,13 +18,13 @@ public class TestIptModify {
 
     @BeforeClass
     public void beforeClass() {
-        AlterConfig.alterConfig("40003","1");
-        AlterConfig.alterConfig("40106","120");
+        AlterConfig.alterConfig("40003", "1");
+        AlterConfig.alterConfig("40106", "120");
     }
 
     @BeforeMethod
-    public void beforeMethod(){
-        sendData =  new SendData();
+    public void beforeMethod() {
+        sendData = new SendData();
         ipt = new Ipt();
     }
 
@@ -33,4 +33,5 @@ public class TestIptModify {
 
 
     }
+
 }

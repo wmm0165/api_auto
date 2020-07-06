@@ -1,0 +1,58 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="TestIptStop" verbose="1">
+    <test name="TestIptStop">
+                <parameter name="filename" value="audit771_44"/>
+<!--                <parameter name="filename" value="audit771_44"/>-->
+        <classes>
+            <class name="com.sf.autotest.testcases.TestIptStop">
+                <methods>
+                    <include name="test_stop_1"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+
+
+        <!--<suite name="Suite1" verbose="1" >-->
+        <!--<test name="Regression1"   >-->
+        <!--    <packages>-->
+        <!--        <package name="test.sample" />-->
+        <!--    </packages>-->
+        <!--</test>-->
+        <!--</suite>-->
+
+
+        <!--<test name="Regression1">-->
+        <!--<groups>-->
+        <!--    <run>-->
+        <!--        <exclude name="brokenTests"  />-->
+        <!--        <include name="checkinTests"  />-->
+        <!--    </run>-->
+        <!--</groups>-->
+
+        <!--<classes>-->
+        <!--    <class name="test.IndividualMethodsTest">-->
+        <!--        <methods>-->
+        <!--            <include name="testMethod" />-->
+        <!--        </methods>-->
+        <!--    </class>-->
+        <!--</classes>-->
+        <!--</test>-->
+
+
+        <!--<test name="Regression1" preserve-order="false">-->
+        <!--<classes>-->
+
+        <!--    <class name="test.Test1">-->
+        <!--        <methods>-->
+        <!--            <include name="m1" />-->
+        <!--            <include name="m2" />-->
+        <!--        </methods>-->
+        <!--    </class>-->
+
+        <!--    <class name="test.Test2" />-->
+
+        <!--</classes>-->
+        <!--</test>-->
