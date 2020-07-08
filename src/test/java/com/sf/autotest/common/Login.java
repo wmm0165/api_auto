@@ -26,7 +26,7 @@ public class Login {
             HashMap<Object, Object> paramsMap = new HashMap<>();
             paramsMap.put("name", sfContant.username);
             paramsMap.put("password", EncoderByMd5(sfContant.password));
-            System.out.println(paramsMap);
+//            System.out.println(paramsMap);
             String jsonString = JSONObject.toJSONString(paramsMap);
 //            System.out.println(jsonString);
 //            String aa ="{\"password\":\"e10adc3949ba59abbe56e057f20f883e\",\"name\":\"wangmm\"}";
@@ -39,7 +39,6 @@ public class Login {
             httpResponse = httpClient.execute(httpPost);
             HttpEntity entity1 = httpResponse.getEntity();
             String res = EntityUtils.toString(entity1);
-            System.out.println(res);
             HttpGet httpGet = new HttpGet(url2);
             httpClient.execute(httpGet);
         } catch (IOException e) {

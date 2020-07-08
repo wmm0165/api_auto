@@ -11,10 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Thread.sleep;
 
@@ -31,14 +28,13 @@ public class Ipt {
      */
     public JSONObject selNotAuditIptList(String pid) {
         try {
-            sleep(2000);
+            sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("patientId", pid);
-//        hashMap.put("patientId", pid);
-        System.out.println(jsonObject);
+//        System.out.println(jsonObject);
         return httpRequest.doPostJson(sfContant.auditcenter_url + "/api/v1/ipt/selNotAuditIptList", jsonObject);
 
     }
@@ -51,15 +47,15 @@ public class Ipt {
      */
     public String getEngineid(String pid, int n) {
         JSONObject res = selNotAuditIptList(pid);
-        System.out.println(res);
         Object engineid = JSONObject.parseObject(res.getString("data")).getJSONArray("engineInfos").getJSONObject(n - 1).get("id");
 //        System.out.println(engineId);
-        String engineId = (String) engineid;
+        String engineId = String.valueOf(engineid);
         return engineId;
     }
 
-    public JSONObject auditBatchAgree(Integer... engineIds) {
+    public JSONObject auditBatchAgree(String... engineIds) {
         JSONObject jsonObject = new JSONObject();
+        System.out.println(Arrays.toString(engineIds));
         jsonObject.put("ids", engineIds);
         jsonObject.put("auditType", 3);
         jsonObject.put("auditWay", 2);

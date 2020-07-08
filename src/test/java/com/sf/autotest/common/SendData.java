@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -38,6 +39,17 @@ public class SendData {
         changeData.put("{{docName}}", "王医生");
     }
 
+    public static void main(String[] args) {
+        SendData sendData = new SendData();
+        Set<String> keySet = sendData.changeData.keySet();
+        for (String key : keySet){
+            System.out.println(key+sendData.changeData.get(key));
+        }
+
+//        String s = sendData.sendXml("ipt.xml");
+//        System.out.println(s);
+    }
+
     public String sendXml(String resourcePath) {
         //不传url，则默认对内接口
         String xml = "";
@@ -58,9 +70,5 @@ public class SendData {
     }
 
 
-    public static void main(String[] args) {
-        SendData sendData = new SendData();
-        String s = sendData.sendXml("ipt.xml");
-        System.out.println(s);
-    }
+
 }

@@ -15,7 +15,7 @@ public class AlterConfig {
 //        list.add(new BasicNameValuePair("type", "input"));
 //        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list, "UTF-8");
         JSONObject jsonObject = httpRequest.doPut(sfContant.syscenter_url + "/api/v1/config/updateConfig?id=" + id + "&type=input", value);
-        System.out.println(jsonObject);
+//        System.out.println(jsonObject);
 
 
     }

@@ -21,7 +21,17 @@ public class Util {
 
     public static String getTimestamp(int day, int hour, int minute) {
         //将Date类型的时间转为对应的时间戳
-        String stamp = String.valueOf(date(day, hour, minute).getTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String s = getDate(day, hour, minute);
+        Date parse = null;
+        try {
+            parse = simpleDateFormat.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long ts = parse.getTime();
+        String stamp = String.valueOf(ts);//1594207443000 这样得到的是000结尾的时间戳
+//        String stamp = String.valueOf(date(day, hour, minute).getTime());
         return stamp;
     }
 
@@ -35,7 +45,7 @@ public class Util {
     }
 
     public static void main(String[] args) {
-        Util.getDate(0, 3, 0);
+        Util.getTimestamp(0, 3, 0);
 //        Calendar cal = Calendar.getInstance();
 //        System.out.println(cal.getTimeInMillis()); //获取13位时间戳
 //        Date t = cal.getTime();
