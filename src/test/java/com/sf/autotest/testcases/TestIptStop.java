@@ -38,9 +38,12 @@ public class TestIptStop {
     public void test_stop_1(String filename) {
         //失效时间大于(当前时间+120),这里的测试数据失效时间为当前时间+180分钟，产生任务
         sendData.sendXml(filename);
+        sendData.sendXml(filename);
         JSONObject response = ipt.selNotAuditIptList(sendData.changeData.get("{{zyhzh}}"));
         JSONArray array = JSONObject.parseObject(response.getString("data")).getJSONArray("engineInfos");
+        int size = array.size();
         Assert.assertNotNull(array);
+        Assert.assertEquals(size,1); //即使重复传也只产生一个任务
     }
 
     @Test(dataProvider = "stop_2",dataProviderClass = IptStopProvider.class)
@@ -48,6 +51,19 @@ public class TestIptStop {
         //长期医嘱/临时医嘱，失效时间小于(当前时间+120),这里的测试数据失效时间为当前时间+60分钟，不产生任务
         //长期医嘱/临时医嘱，失效时间小于当前时间,这里的测试数据失效时间为当前时间-60分钟，不产生任务
         sendData.sendXml(filename);
+        sendData.sendXml(filename);
+        JSONObject response = ipt.selNotAuditIptList(sendData.changeData.get("{{zyhzh}}"));
+        JSONArray array = JSONObject.parseObject(response.getString("data")).getJSONArray("engineInfos");
+        Assert.assertNull(array);
+        //        String engineid = ipt.getEngineid(sendData.changeData.get("{{zyhzh}}"), 1);
+//        ipt.iptAudit(sendData.changeData.get("{{gp}}"), String.valueOf(engineid), 0);
+    }
+
+    public void test_stop_3() {
+        //长期医嘱/临时医嘱，失效时间小于(当前时间+120),这里的测试数据失效时间为当前时间+60分钟，不产生任务
+        //长期医嘱/临时医嘱，失效时间小于当前时间,这里的测试数据失效时间为当前时间-60分钟，不产生任务
+        sendData.sendXml("audit771_46");
+        sendData.sendXml("audit771_46");
         JSONObject response = ipt.selNotAuditIptList(sendData.changeData.get("{{zyhzh}}"));
         JSONArray array = JSONObject.parseObject(response.getString("data")).getJSONArray("engineInfos");
         Assert.assertNull(array);
@@ -57,7 +73,7 @@ public class TestIptStop {
 
     @Test
     public void testStop_13() {
-        //开具医嘱，批量通过后，传停嘱（只修改了失效时间，失效时间>当前时间+配置时间），即使有效也不产生待审任务
+        //开具医嘱，批量通过后，传停嘱（只修改了失效时间，失效时间>当前时间+配置时间），即使有效也不产生待审任务，后续会被合并
         sendData.sendXml("audit771_15");
         String engineid = ipt.getEngineid(sendData.changeData.get("{{ts}}"), 1);
         ipt.auditBatchAgree(engineid);

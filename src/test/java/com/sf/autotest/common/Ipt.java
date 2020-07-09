@@ -21,7 +21,6 @@ public class Ipt {
     public SendData sd = new SendData();
 
 
-
     /**
      * @param pid 患者号
      * @return 根据患者号查询住院待审列表
@@ -76,6 +75,8 @@ public class Ipt {
         } else if (auditType == 1) {
             groupOrderList.put("auditInfo", "打回可双签");
             groupOrderList.put("auditStatus", 0);
+            groupOrderList.put("messageStatus", 1);
+
         } else if (auditType == 2) {
             groupOrderList.put("auditStatus", 1);
         }
@@ -109,7 +110,7 @@ public class Ipt {
     }
 
 
-    public JSONObject mergeEngineMsgList(String engineId, String gp, int type) {
+    public JSONObject mergeEngineMsgList(String gp, String engineId, int type) {
         JSONObject orderList = orderList(engineId, type);
         ArrayList<Object> medicalIds = new ArrayList<>();
         ArrayList<Object> medicalHisIds = new ArrayList<>();
@@ -169,7 +170,7 @@ public class Ipt {
         System.out.println(jsonObject);
         ArrayList<Object> list = new ArrayList<>();
         for (Object key : jsonObject.getJSONArray("C")) {
-           JSONObject js =  (JSONObject)key;
+            JSONObject js = (JSONObject) key;
 
             System.out.println(key);
         }
@@ -190,7 +191,7 @@ public class Ipt {
         Ipt ipt = new Ipt();
         String engineid = ipt.getEngineid(sendData.changeData.get("{{zyhzh}}"), 1);
 //        ipt.orderList(String.valueOf(engineid), 0);
-        ipt.mergeEngineMsgList(engineid,sendData.changeData.get("{{gp}}"),0);
+        ipt.mergeEngineMsgList(engineid, sendData.changeData.get("{{gp}}"), 0);
         String a = "test";
 //        ipt.iptAudit(sendData.changeData.get("{{gp}}"), String.valueOf(engineid), 0);
 //        JSONObject ss = ipt.postselNotAuditIptList(sendData.changeData.get("{{zyhzh}}"));
