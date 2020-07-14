@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.testng.annotations.Test;
 
 
 import java.io.IOException;
@@ -47,6 +48,71 @@ public class Login {
         return httpClient;
     }
 
+
+    public CloseableHttpClient login2() {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        com.sf.autotest.common.entity.Login login = new com.sf.autotest.common.entity.Login();
+        login.setName("wangmm");
+        login.setPassword("e10adc3949ba59abbe56e057f20f883e");
+        String s = JSONObject.toJSON(login).toString();
+        try {
+//            String aa ="{\"password\":\"e10adc3949ba59abbe56e057f20f883e\",\"name\":\"wangmm\"}";
+            HttpPost httpPost = new HttpPost(sfContant.syscenter_url + "/api/v1/currentUser");
+            httpPost.setHeader("Content-Type", "application/json");
+            httpPost.setHeader("Accept", "application/json");
+            StringEntity entity = new StringEntity(s);
+            httpPost.setEntity(entity);
+            CloseableHttpResponse httpResponse = null;
+            httpResponse = httpClient.execute(httpPost);
+            HttpEntity entity1 = httpResponse.getEntity();
+            String res = EntityUtils.toString(entity1);
+            System.out.println(res);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return httpClient;
+    }
+    public static void main(String[] args) throws IOException {
+        Login login = new Login();
+        login.login2();
+//        CloseableHttpClient httpClient = HttpClients.createDefault();
+//        String url2 = "http://10.1.1.120:9999/auditcenter/api/v1/startAuditWork";
+//        HashMap<Object, Object> paramsMap = new HashMap<>();
+//        paramsMap.put("name", sfContant.username);
+//        paramsMap.put("password", EncoderByMd5(sfContant.password));
+////        System.out.println(paramsMap);
+//        String jsonString = JSONObject.toJSONString(paramsMap);
+////        System.out.println(jsonString);
+////            String aa ="{\"password\":\"e10adc3949ba59abbe56e057f20f883e\",\"name\":\"wangmm\"}";
+//        HttpPost httpPost = new HttpPost(sfContant.syscenter_url + "/api/v1/currentUser");
+//        httpPost.setHeader("Content-Type", "application/json");
+//        httpPost.setHeader("Accept", "application/json");
+//        StringEntity entity = new StringEntity(jsonString);
+//        httpPost.setEntity(entity);
+//        CloseableHttpResponse httpResponse = null;
+//        httpResponse = httpClient.execute(httpPost);
+//        HttpEntity entity1 = httpResponse.getEntity();
+//        //(st, SerializerFeature.WriteMapNullValue) EntityUtils.toString(entity1)
+////        JSONObject object = new JSONObject(EntityUtils.toString(entity1));
+//
+//        JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(entity1).replaceAll("null", "\"\""));
+////        String s = JSONObject.toJSONString(jsonObject, SerializerFeature.WriteMapNullValue);
+////        String str = JsonPath.read(jsonObject,
+////                "@.data");
+////        System.out.println(str);
+//        String data = jsonObject.getString("data");
+//        System.out.println(data);
+//        JSONObject jsondata = JSONObject.parseObject(jsonObject.getString("data"));
+//        System.out.println(jsondata.getString("realname"));
+//        System.out.println(jsondata.getString("createUserId")+"aa");
+//        System.out.println("=================================");
+
+
+
+//        System.out.println(jsonObject);
+    }
+
+
     public static String EncoderByMd5(String buf) {
         try {
             MessageDigest digist = MessageDigest.getInstance("MD5");
@@ -70,41 +136,6 @@ public class Login {
         ob[1] = Digit[ib & 0X0F];
         String s = new String(ob);
         return s;
-    }
-
-    public static void main(String[] args) throws IOException {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        String url2 = "http://10.1.1.120:9999/auditcenter/api/v1/startAuditWork";
-        HashMap<Object, Object> paramsMap = new HashMap<>();
-        paramsMap.put("name", sfContant.username);
-        paramsMap.put("password", EncoderByMd5(sfContant.password));
-//        System.out.println(paramsMap);
-        String jsonString = JSONObject.toJSONString(paramsMap);
-//        System.out.println(jsonString);
-//            String aa ="{\"password\":\"e10adc3949ba59abbe56e057f20f883e\",\"name\":\"wangmm\"}";
-        HttpPost httpPost = new HttpPost(sfContant.syscenter_url + "/api/v1/currentUser");
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("Accept", "application/json");
-        StringEntity entity = new StringEntity(jsonString);
-        httpPost.setEntity(entity);
-        CloseableHttpResponse httpResponse = null;
-        httpResponse = httpClient.execute(httpPost);
-        HttpEntity entity1 = httpResponse.getEntity();
-        //(st, SerializerFeature.WriteMapNullValue) EntityUtils.toString(entity1)
-//        JSONObject object = new JSONObject(EntityUtils.toString(entity1));
-
-        JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(entity1).replaceAll("null", "\"\""));
-//        String s = JSONObject.toJSONString(jsonObject, SerializerFeature.WriteMapNullValue);
-//        String str = JsonPath.read(jsonObject,
-//                "@.data");
-//        System.out.println(str);
-        String data = jsonObject.getString("data");
-        System.out.println(data);
-        JSONObject jsondata = JSONObject.parseObject(jsonObject.getString("data"));
-        System.out.println(jsondata.getString("realname"));
-        System.out.println(jsondata.getString("createUserId")+"aa");
-
-//        System.out.println(jsonObject);
     }
 
 

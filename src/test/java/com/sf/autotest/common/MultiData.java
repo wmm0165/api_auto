@@ -9,10 +9,16 @@ import java.util.concurrent.*;
  */
 public class MultiData {
     public static void main(String[] args) {
-        //创建指定动态范围(2-4)的线程池
-        ExecutorService pool = new ThreadPoolExecutor(2, 4,
-                60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
-        for (int i = 0; i < 10000; i++) {
+//        ExecutorService pool = new ThreadPoolExecutor(2, 4,
+//                60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+
+        for (int i = 0; i < 5000; i++) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             pool.submit(new Task());
         }
         pool.shutdown();
@@ -25,6 +31,6 @@ class Task implements Runnable{
 
     @Override
     public void run() {
-        new SendData().sendXml("ipt.xml");
+        new SendData().sendXml("opt_35.xml");
     }
 }
