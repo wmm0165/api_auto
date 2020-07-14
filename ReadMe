@@ -2,3 +2,6 @@
 
 生成测试结果：在Terminal下执行命令 mvn clean test
 根据测试结果生成测试报告：allure generate allure-results -o allure-report --clean
+
+注意事项：
+1.测试审方方案过滤条件，务必保证运行脚本前无住院方案
