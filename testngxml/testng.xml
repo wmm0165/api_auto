@@ -7,7 +7,7 @@
         <classes>
             <class name="com.sf.autotest.testcases.TestIptStop">
                 <methods>
-                    <include name="test_stop_1"></include>
+                    <include name="test_stop_1"/>
                 </methods>
             </class>
         </classes>

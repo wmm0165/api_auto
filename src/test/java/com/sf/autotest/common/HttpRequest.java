@@ -68,6 +68,24 @@ public class HttpRequest {
     }
 
     //put请求
+    public JSONObject doPutJson(String url, JSONObject jsonObject) {
+        HttpPut httpPut = new HttpPut(url);
+        httpPut.setHeader("Content-Type", "application/json");
+        httpPut.setHeader("Accept", "application/json");
+        String jsonString = jsonObject.toString();
+        try {
+            StringEntity entity = new StringEntity(jsonString, "UTF-8");
+            httpPut.setEntity(entity);
+            CloseableHttpResponse respose = client.execute(httpPut);
+            HttpEntity httpEntity = respose.getEntity();
+            String str = EntityUtils.toString(httpEntity);
+            log.info("接口{}的响应结果：{}", url, str);
+            return JSONObject.parseObject(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public JSONObject doPut(String url, String data) {
         HttpPut httpPut = new HttpPut(url);
         StringEntity stringEntity = new StringEntity(data, "UTF-8");
